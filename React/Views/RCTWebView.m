@@ -298,7 +298,7 @@ RCT_NOT_IMPLEMENTED(- (instancetype)initWithCoder:(NSCoder *)aDecoder)
     #endif
     NSString *source = [NSString stringWithFormat:
       @"(function() {"
-        "window.originalPostMessage = window.postMessage;"
+        // "window.originalPostMessage = window.postMessage;"
 
         "var messageQueue = [];"
         "var messagePending = false;"
@@ -309,7 +309,7 @@ RCT_NOT_IMPLEMENTED(- (instancetype)initWithCoder:(NSCoder *)aDecoder)
           "window.location = '%@://%@?' + encodeURIComponent(messageQueue.shift());"
         "}"
 
-        "window.postMessage = function(data) {"
+        "window.postMessageNative = function(data) {"
           "messageQueue.push(String(data));"
           "processQueue();"
         "};"
