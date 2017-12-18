@@ -237,11 +237,11 @@ class WebView extends React.Component {
      */
     onNavigationStateChange: PropTypes.func,
     /**
-     * A function that is invoked when the webview calls `window.postMessage`.
-     * Setting this property will inject a `postMessage` global into your
+     * A function that is invoked when the webview calls `window.postMessageNative`.
+     * Setting this property will inject a `postMessageNative` global into your
      * webview, but will still call pre-existing values of `postMessage`.
      *
-     * `window.postMessage` accepts one argument, `data`, which will be
+     * `window.postMessageNative` accepts one argument, `data`, which will be
      * available on the event object, `event.nativeEvent.data`. `data`
      * must be a string.
      */
@@ -379,7 +379,7 @@ class WebView extends React.Component {
 
   componentWillMount() {
     if (this.props.startInLoadingState) {
-      this.setState({viewState: WebViewState.LOADING});
+      this.setState({ viewState: WebViewState.LOADING });
     }
   }
 
@@ -487,7 +487,7 @@ class WebView extends React.Component {
    * Reloads the current page.
    */
   reload = () => {
-    this.setState({viewState: WebViewState.LOADING});
+    this.setState({ viewState: WebViewState.LOADING });
     UIManager.dispatchViewManagerCommand(
       this.getWebViewHandle(),
       UIManager.RCTWebView.Commands.reload,
@@ -563,7 +563,7 @@ class WebView extends React.Component {
 
   _onLoadingError = (event: Event) => {
     event.persist(); // persist this event because we need to store it
-    var {onError, onLoadEnd} = this.props;
+    var { onError, onLoadEnd } = this.props;
     onError && onError(event);
     onLoadEnd && onLoadEnd(event);
     console.warn('Encountered an error loading page', event.nativeEvent);
@@ -575,7 +575,7 @@ class WebView extends React.Component {
   };
 
   _onLoadingFinish = (event: Event) => {
-    var {onLoad, onLoadEnd} = this.props;
+    var { onLoad, onLoadEnd } = this.props;
     onLoad && onLoad(event);
     onLoadEnd && onLoadEnd(event);
     this.setState({
@@ -585,7 +585,7 @@ class WebView extends React.Component {
   };
 
   _onMessage = (event: Event) => {
-    var {onMessage} = this.props;
+    var { onMessage } = this.props;
     onMessage && onMessage(event);
   }
 }
