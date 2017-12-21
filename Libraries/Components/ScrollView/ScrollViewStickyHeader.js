@@ -22,7 +22,7 @@ type Props = {
   scrollAnimatedValue: Animated.Value,
 };
 
-class ScrollViewStickyHeader extends React.Component {
+class ScrollViewStickyHeader extends React.PureComponent {
   props: Props;
   state: {
     measured: boolean,

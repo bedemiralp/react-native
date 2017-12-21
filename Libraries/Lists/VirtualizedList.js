@@ -433,6 +433,8 @@ class VirtualizedList extends React.PureComponent<OptionalProps, Props, State> {
     }
   }
 
+  __onCellLayout = this._onCellLayout.bind(this);
+
   _pushCells(
     cells: Array<Object>,
     stickyHeaderIndices: Array<number>,
@@ -470,7 +472,7 @@ class VirtualizedList extends React.PureComponent<OptionalProps, Props, State> {
           key={key}
           prevCellKey={prevCellKey}
           onUpdateSeparators={this._onUpdateSeparators}
-          onLayout={e => this._onCellLayout(e, key, ii)}
+          onLayout={this.__onCellLayout}
           onUnmount={this._onCellUnmount}
           parentProps={this.props}
           ref={ref => {
@@ -1153,7 +1155,7 @@ class VirtualizedList extends React.PureComponent<OptionalProps, Props, State> {
   }
 }
 
-class CellRenderer extends React.Component {
+class CellRenderer extends React.PureComponent {
   props: {
     ItemSeparatorComponent: ?ReactClass<*>,
     cellKey: string,
@@ -1161,7 +1163,7 @@ class CellRenderer extends React.Component {
     index: number,
     inversionStyle: ?StyleObj,
     item: Item,
-    onLayout: (event: Object) => void, // This is extracted by ScrollViewStickyHeader
+    onLayout: (event: Object, key: string, index: number) => void, // This is extracted by ScrollViewStickyHeader
     onUnmount: (cellKey: string) => void,
     onUpdateSeparators: (cellKeys: Array<?string>, props: Object) => void,
     parentProps: {
@@ -1202,6 +1204,8 @@ class CellRenderer extends React.Component {
     },
   };
 
+  _onLayout = (event: Object) => this.props.onLayout(event, this.props.cellKey, this.props.index);
+
   updateSeparatorProps(newProps: Object) {
     this.setState(state => ({
       separatorProps: {...state.separatorProps, ...newProps},
@@ -1231,7 +1235,7 @@ class CellRenderer extends React.Component {
     const onLayout =
       getItemLayout && !parentProps.debug && !fillRateHelper.enabled()
         ? undefined
-        : this.props.onLayout;
+        : this._onLayout;
     // NOTE: that when this is a sticky header, `onLayout` will get automatically extracted and
     // called explicitly by `ScrollViewStickyHeader`.
     return (

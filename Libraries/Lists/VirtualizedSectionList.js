@@ -373,7 +373,7 @@ class VirtualizedSectionList<SectionT: SectionBase> extends React.PureComponent<
   };
 }
 
-class ItemWithSeparator extends React.Component {
+class ItemWithSeparator extends React.PureComponent {
   props: {
     LeadingSeparatorComponent: ?ReactClass<*>,
     SeparatorComponent: ?ReactClass<*>,
